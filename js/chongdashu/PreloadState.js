@@ -35,7 +35,7 @@ var p = PreloadState.prototype;
 
         this.loadingFrame = this.game.add.sprite(0,0, "preloader-frame");
         this.loadingBar = this.game.add.sprite(0,0, "preloader-bar");
-        this.loadingText = this.game.add.text(0,0, "Loading: 0%", { font: "16pt Garamond", align: "center", color : "FFFFFF"});
+        this.loadingText = this.game.add.text(0,0, "Loading: 0%", { font: "16pt Garamond", align: "center", fill : "#FFFFFF", stroke : "black", strokeThickness: 1});
 
         this.loadingFrame.anchor.set(0.5);
         this.loadingBar.anchor.set(0.5);
@@ -45,7 +45,6 @@ var p = PreloadState.prototype;
 
         // Loading begins here.
         // --------------------
-        
        
     };
 
