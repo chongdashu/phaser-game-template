@@ -17,9 +17,6 @@ var GameState = function(game) {
 };
 var p = GameState.prototype;
 
-    p.prototypes = null;
-    p.dataIndex = 0;
-    
     // @phaser
     p.preload = function() {
        

@@ -34,7 +34,6 @@ var p = createjs.extend(MovementSystem, chongdashu.System);
         this.System_init(state);
 
         this.addComponent(chongdashu.KeyboardComponent.TYPE);
-        this.addComponent(chongdashu.AimingComponent.TYPE);
     };
 
 
@@ -43,38 +42,32 @@ var p = createjs.extend(MovementSystem, chongdashu.System);
             var self = this;
             var sprite = entity;
             var kc = sprite.komponents[chongdashu.KeyboardComponent.TYPE];
-            var ac = sprite.komponents[chongdashu.AimingComponent.TYPE];
 
-            // note
-            // used to be 350, but causes lag (See Bug #1)
-            // ac.arrowReleaseTime > 0 will fix #1, but not sure what's best.
-            if (!ac.arrow && this.game.time.time - ac.arrowReleaseTime > 50) {
-                if (kc.isDown(Phaser.Keyboard.LEFT)) {
-                    if (this.leftDownAccum >= 50) {
-                        sprite.body.velocity.x = -GLOBAL_MOVEMENT_SPEED;
-                        sprite.body.facingX = Phaser.LEFT;
-                    }
-                    else {
-                        this.leftDownAccum += this.game.time.elapsed;
-                    }
-                    
+            if (kc.isDown(Phaser.Keyboard.LEFT)) {
+                if (this.leftDownAccum >= 50) {
+                    sprite.body.velocity.x = -GLOBAL_MOVEMENT_SPEED;
+                    sprite.body.facingX = Phaser.LEFT;
                 }
-                if (kc.isDown(Phaser.Keyboard.RIGHT)) {
-                    if (this.rightDownAccum >= 50) {
-                        sprite.body.velocity.x = GLOBAL_MOVEMENT_SPEED;
-                        sprite.body.facingX = Phaser.RIGHT;
-                    }
-                    else {
-                        this.rightDownAccum += this.game.time.elapsed;
-                    }
+                else {
+                    this.leftDownAccum += this.game.time.elapsed;
                 }
+                
+            }
+            if (kc.isDown(Phaser.Keyboard.RIGHT)) {
+                if (this.rightDownAccum >= 50) {
+                    sprite.body.velocity.x = GLOBAL_MOVEMENT_SPEED;
+                    sprite.body.facingX = Phaser.RIGHT;
+                }
+                else {
+                    this.rightDownAccum += this.game.time.elapsed;
+                }
+            }
 
-                if (kc.isUp(Phaser.Keyboard.LEFT)) {
-                    this.leftDownAccum = 0;
-                }
-                if (kc.isUp(Phaser.Keyboard.RIGHT)) {
-                    this.rightDownAccum = 0;
-                }
+            if (kc.isUp(Phaser.Keyboard.LEFT)) {
+                this.leftDownAccum = 0;
+            }
+            if (kc.isUp(Phaser.Keyboard.RIGHT)) {
+                this.rightDownAccum = 0;
             }
             
             

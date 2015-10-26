@@ -13,8 +13,8 @@ this.chongdashu = this.chongdashu||{};
  * @class Component
  * @constructor
  **/
-var Component = function(entity) {
-    this.init(entity);
+var Component = function() {
+    this.init();
 };
 var p = Component.prototype;
 Component.prototype.constructor = Component;
@@ -26,9 +26,8 @@ Component.prototype.constructor = Component;
         return entity.komponents && compoentType in entity.komponents;
     };
 
-    p.init = function(entity, componentType)
+    p.init = function(componentType)
     {
-        this.entity = entity;
         this.componentType = componentType;
     };
 
