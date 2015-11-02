@@ -1,30 +1,46 @@
 /**
- * 
- * Copyright (c) Chong-U Lim
- * http://github.com/chongdashu
- */
+* @author       Chong-U Lim <me@chongdashu.com>
+* @copyright    2015 Chong-U Lim
+* @module       Game.Component
+*/
 this.chongdashu = this.chongdashu||{};
 
 (function() {
     "use strict";
 
 /**
- * KeyboardComponent
- * @class KeyboardComponent
+ * KeyboardComponent is a wrapper for a game's
+ * keyboard key states.
+ *
+ * @class Game.Component.KeyboardComponent
+ * @extends Core.Component
  * @constructor
  **/
-var KeyboardComponent = function() {
+var KeyboardComponent = function(keyboard) {
     // @param {Phaser.Keyboard} keyboard
     this.init(keyboard);
 };
 var p = createjs.extend(KeyboardComponent, chongdashu.Component);
     
+    // --
+    /**
+    * The type identifier of this component.
+    *
+    * @property Game.KeyboardComponent.TYPE
+    * @type String
+    * @static
+    * @final
+    */
     KeyboardComponent.TYPE = "component:KeyboardComponent";
 
+    // --
+    
     KeyboardComponent.UP = "up";
     KeyboardComponent.JUST_UP = "just_up";
     KeyboardComponent.DOWN = "down";
     KeyboardComponent.JUST_DOWN = "just_down";
+
+    // --
 
     p.keyStates = null;
     p.keyboard = null;
@@ -35,72 +51,8 @@ var p = createjs.extend(KeyboardComponent, chongdashu.Component);
         this.Component_init(KeyboardComponent.TYPE);
         this.keyStates = {};
         this.keyboard = keyboard;
-
-        // this.initKey(Phaser.Keyboard.W);
-        // this.initKey(Phaser.Keyboard.A);
-        // this.initKey(Phaser.Keyboard.S);
-        // this.initKey(Phaser.Keyboard.D);
-        // this.initKey(Phaser.Keyboard.SPACEBAR);
-        // this.initKey(Phaser.Keyboard.Z);
-        // this.initKey(Phaser.Keyboard.X);
-        // this.initKey(Phaser.Keyboard.LEFT);
-        // this.initKey(Phaser.Keyboard.RIGHT);
     };
 
-    p.initKey = function(keycode) {
-        if (!(keycode in this.keyStates)) {
-            this.keyStates[keycode] = KeyboardComponent.UP;
-        }
-    };
-
-    p.isJustDown = function(keycode) {
-        this.initKey(keycode);
-        return this.keyStates[keycode] && (this.keyStates[keycode] === KeyboardComponent.JUST_DOWN);
-    };
-
-    p.isDown = function(keycode) {
-        this.initKey(keycode);
-        return this.keyStates[keycode] && (this.isJustDown(keycode) || (this.keyStates[keycode] === KeyboardComponent.DOWN));
-    };
-
-    p.isJustUp = function(keycode) {
-        this.initKey(keycode);
-        return this.keyStates[keycode] && (this.keyStates[keycode] === KeyboardComponent.JUST_UP);
-    };
-
-    p.isUp = function(keycode) {
-        this.initKey(keycode);
-        return this.keyStates[keycode] && (this.isJustUp(keycode) || (this.keyStates[keycode] === KeyboardComponent.UP));
-    };
-
-    p.update = function() {
-        this.Component_update();
-
-        var self = this;
-
-        $.each(this.keyStates, function(key, state) {
-            if (self.keyboard.isDown(key)) {
-                if (state == KeyboardComponent.JUST_UP || state == KeyboardComponent.UP) {
-                    self.keyStates[key] = KeyboardComponent.JUST_DOWN;
-                }
-                else {
-                    self.keyStates[key] = KeyboardComponent.DOWN;
-                }
-            }
-            else if (!self.keyboard.isDown(key)) {
-                if (state == KeyboardComponent.JUST_DOWN || state == KeyboardComponent.DOWN) {
-                    self.keyStates[key] = KeyboardComponent.JUST_UP;
-                }
-                else {
-                    self.keyStates[key] = KeyboardComponent.UP;
-                }
-            }
-        });
-
-
-        
-    };
-    
 
 // Link
 // ----

@@ -1,8 +1,9 @@
 /**
- * 
- * Copyright (c) Chong-U Lim
- * http://github.com/chongdashu
- */
+* @author       Chong-U Lim <me@chongdashu.com>
+* @copyright    2015 Chong-U Lim
+* @module       Game
+* @msubmodule   State
+*/
 this.chongdashu = this.chongdashu||{};
 
 (function() {
@@ -10,7 +11,7 @@ this.chongdashu = this.chongdashu||{};
 
 /**
  * BootState
- * @class BootState
+ * @class State.BootState
  * @constructor
  **/
 var BootState = function(game) {
@@ -37,9 +38,8 @@ var p = BootState.prototype;
         else
         {
             //  Same goes for mobile settings.
-            //  In this case we're saying "scale the game, no lower than 480x260 and no higher than 1024x768"
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            this.scale.setMinMax(480, 260, 1024, 768);
+            this.scale.setMinMax(320, 240, 2048, 1536);
             this.scale.forceLandscape = true;
             this.scale.pageAlignHorizontally = true;
         }

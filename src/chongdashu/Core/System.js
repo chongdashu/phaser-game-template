@@ -1,76 +1,131 @@
 /**
- * 
- * Copyright (c) Chong-U Lim
- * http://github.com/chongdashu
- */
+* @author       Chong-U Lim <me@chongdashu.com>
+* @copyright    2015 Chong-U Lim
+* @module       Core
+*/
+
 this.chongdashu = this.chongdashu||{};
 
 (function() {
     "use strict";
 
 /**
- * System
- * @class System
+ * System represents a System of the Entity-Component-System Design
+ * paradigm.
+ *
+ * @class Core.System
  * @constructor
  **/
-var System = function(state) {
-    this.init(state);
+var System = function(nodeType) {
+    this.init(nodeType);
 };
 var p = System.prototype;
 System.prototype.constructor = System;
     
-    p.components = {};
+    /**
+    * Indicates if the system is currently enabled or not. 
+    * If not enabled, no system or node updates will be performed.
+    * @property enabled
+    *
+    * @type boolean
+    * @default true
+    */
     p.enabled = false;
 
-    p.init = function(state)
+    /**
+    * The priority of the current system. This is used by the 
+    * {{#crossLink "Core.Engine"}}{{/crossLink}} to order the sequence of systems
+    * that it processes. Lower priority numbers are executed first.
+    *
+    * @property priority
+    * @type {integer}
+    * @default 0
+    */
+    p.priority = 0;
+
+    /**
+    * An array of {{#crossLink "Core.Node"}}{{/crossLink}} objects that 
+    * this system manages based on the {{#crossLink "Core.Node/Core.Node.TYPE:property"}}{{/crossLink}}
+    * @property nodes
+    * @type {Array}
+    */
+    p.nodes = null;
+
+    /**
+    * The {{#crossLink "Core.Node/Core.Node.TYPE:property"}}{{/crossLink}} that this system
+    * will be responsible for.
+    * @property String
+    * @type Core.Node.TYPE
+    */
+    p.nodeType = null;
+
+    p.engine = null;
+
+
+    /**
+    * The initialization method is called when the object is constructor.
+    *
+    * @method init
+    * @param {string} nodeType The type of the node. See {{#crossLink "Core.Node/Core.Node.TYPE:property"}}{{/crossLink}}.
+    */
+    p.init = function(nodeType)
     {
-        console.log("[System], init()");
-        this.state = state;
-        this.game = state.game;
-        this.components = {};
+        // console.log("[System], init()");
+
+        this.priority = 0;
         this.enabled = true;
+
+        this.nodeType = nodeType;
     };
 
-    p.update = function(entity) {
-
-        var containsAllComponents = this.containsKeys(entity, this.components);
-        // if (containsAllComponents) {
-        //     $.each(entity.komponents, function(key, value) {
-        //         console.log(key, value);
-        //         value.update();
-        //     });
-        // }
-        return this.enabled && containsAllComponents;
-    };
-
-    // Credit: http://stackoverflow.com/posts/14368628/revisions
-    p.compareKeys = function(a, b) {
-        var aKeys = Object.keys(a).sort();
-        var bKeys = Object.keys(b).sort();
-
-        return JSON.stringify(aKeys) === JSON.stringify(bKeys);
-    };
-
-    p.containsKeys = function(entity, components) {
-
-        var containsKeys = true;
-
-        $.each(components, function(key, value) {
-
-            if (!(key  in entity.komponents)) {
-                containsKeys = false;
-                return false;
+    /**
+    * The update loop of this system, as called by a given
+    * {{#crossLink "Core.Engine"}}{{/crossLink}}'s update loop.
+    * All related {{#crossLink "Core.Node"}}{{/crossLink}} objects are
+    * updated. Handling of each node individually can be performed
+    * by overriding the {{#crossLink "Core.System/updateNode:method"}}{{/crossLink}} method.
+    * 
+    *
+    * @method update
+    */
+    p.update = function(elapsed) {
+        var nodes = this.engine.getNodes(this.nodeType);
+        if (nodes) {
+            for (var i=0; i < nodes.length; i++) {
+                this.updateNode(nodes[i], elapsed);
             }
-        });
-        return containsKeys;
+        }
     };
 
-    p.render = function() {
-
+    /**
+    * @method updateNode
+    * @param {Core.Node} node The node to be updated
+    */
+    p.updateNode = function(node) {
     };
 
-    p.addComponent = function(component) {
-        this.components[component] = true;
+    /**
+    * Callback method when this system is added to the engine.
+    *
+    * @method onEngineAdd
+    * @param {Core.Engine} engine reference to the {{#crossLink "Core.Engine"}}{{/crossLink}} object.
+    */
+    p.onEngineAdd = function(engine) {
+        this.engine = engine;
+    };
+
+    /**
+    * Callback method when this system is removed from the engine.
+    *
+    * @method onEngineRemove
+    * @param {Core.Engine} engine reference to the {{#crossLink "Core.Engine"}}{{/crossLink}} object.
+    */
+    p.onEngineRemove = function(engine) {
+        this.engine = null;
+    };
+
+    p.getType = function() {
+        return this.constructor.name;
     };
     
 

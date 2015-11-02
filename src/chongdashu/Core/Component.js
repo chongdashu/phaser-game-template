@@ -1,8 +1,8 @@
 /**
- * 
- * Copyright (c) Chong-U Lim
- * http://github.com/chongdashu
- */
+* @author       Chong-U Lim <me@chongdashu.com>
+* @copyright    2015 Chong-U Lim
+* @module       Core
+*/
 this.chongdashu = this.chongdashu||{};
 
 (function() {
@@ -10,8 +10,7 @@ this.chongdashu = this.chongdashu||{};
 
 /**
  * Component
- * @class Component
- * @constructor
+ * @class Core.Component
  **/
 var Component = function() {
     this.init();
@@ -32,7 +31,7 @@ Component.prototype.constructor = Component;
     };
 
     p.addTo = function(entity) {
-        console.log(entity.komponents);
+        
         if (!entity.komponents) {
             entity.komponents = {};
         }

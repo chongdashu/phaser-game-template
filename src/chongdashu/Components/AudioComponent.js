@@ -1,8 +1,8 @@
 /**
- * 
- * Copyright (c) Chong-U Lim
- * http://github.com/chongdashu
- */
+* @author       Chong-U Lim <me@chongdashu.com>
+* @copyright    2015 Chong-U Lim
+* @module       Game.Component
+*/
 this.chongdashu = this.chongdashu||{};
 
 (function() {
@@ -10,38 +10,37 @@ this.chongdashu = this.chongdashu||{};
 
 /**
  * AudioComponent
- * @class AudioComponent
+ * @class Game.Component.AudioComponent
+ * @extends Core.Component
  * @constructor
  **/
-var AudioComponent = function() {
+var AudioComponent = function(audio) {
     // @param {Phaser.Keyboard} entity
-    this.init();
+    this.init(audio);
 };
 var p = createjs.extend(AudioComponent, chongdashu.Component);
     
+    /**
+    * The type identifier of this component.
+    *
+    * @property Game.AudioComponent.TYPE
+    * @type String
+    * @static
+    * @final
+    */
     AudioComponent.TYPE = "component:AudioComponent";
 
-    p.audioCache = {};
+    p.audio = {};
+    p.playOneShot = false;
 
-    p.init = function()
+    p.init = function(audio)
     {
         console.log("[AudioComponent], init()");
         this.Component_init(AudioComponent.TYPE);
 
-        this.audioCache = {};
+        this.audio = audio;
+        this.playOneShot = false;
     };
-
-    p.play = function(audioName) {
-        if (!(audioName in this.audioCache)) {
-            this.audioCache[audioName] = this.entity.add.audio(audioName);
-        }
-        this.audioCache[audioName].play();
-    };
-
-    p.update = function() {
-        this.Component_update();
-    };
-    
 
 // Link
 // ----

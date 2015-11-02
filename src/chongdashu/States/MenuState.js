@@ -1,8 +1,9 @@
 /**
- * 
- * Copyright (c) Chong-U Lim
- * http://github.com/chongdashu
- */
+* @author       Chong-U Lim <me@chongdashu.com>
+* @copyright    2015 Chong-U Lim
+* @module       Game
+* @msubmodule   State
+*/
 this.chongdashu = this.chongdashu||{};
 
 (function() {
@@ -10,7 +11,7 @@ this.chongdashu = this.chongdashu||{};
 
 /**
  * MenuState
- * @class MenuState
+ * @class State.MenuState
  * @constructor
  **/
 var MenuState = function(game) {
